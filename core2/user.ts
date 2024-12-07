@@ -1,10 +1,14 @@
-import { _, Type } from "./Type.ts"
-
-declare const string: Type<string>
+import { _, T } from "./mod.ts"
 
 const NationalityKey = Symbol()
-const nationality = _(NationalityKey)<string>
+const nationality = _(NationalityKey, (v: string) => v)
 
-const string2 = string`${nationality}`
+const x = T.string`We could use it here: ${nationality}`
 
-const v = string2(nationality(1), nationality, nationality(""))
+const Dog = T.object({
+  name: T.string,
+  favoriteToy: T.string`We could use it here: ${nationality}`,
+  x,
+})
+
+console.log(JSON.stringify(Dog, null, 2))
