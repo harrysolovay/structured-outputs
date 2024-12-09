@@ -4,7 +4,7 @@ import { declare } from "./declare.ts"
 
 export function taggedUnion<
   K extends number | string,
-  M extends Record<number | string, null | Record<number | string, AnyType>>,
+  M extends Record<number | string, null | AnyType>,
 >(
   tagKey: K,
   members: M,
@@ -12,9 +12,7 @@ export function taggedUnion<
   {
     [K2 in keyof M]: Expand<
       & { [_ in K]: K2 }
-      & (M[K2] extends null ? {} : {
-        [K3 in keyof M[K2]]: M[K2][K3] extends Type<infer T, symbol> ? T : never
-      })
+      & (M[K2] extends AnyType ? { value: M[K2]["T"] } : {})
     >
   }[keyof M],
   Extract<M[keyof M], AnyType>["D"]
@@ -26,12 +24,3 @@ export function taggedUnion<
     args: [tagKey, Object.fromEntries(tags.map((tag) => [tag, members[tag]]))],
   })
 }
-
-// return {
-//   type: "taggedUnion",
-//   tagKey,
-//   members: Object.fromEntries(tags.map((tag) => {
-//     const member = members[tag]
-//     return [tag, !member ? null : ctx.visit(member)]
-//   })),
-// }
