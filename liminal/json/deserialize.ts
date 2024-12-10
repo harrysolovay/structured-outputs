@@ -1,4 +1,3 @@
-import { assert } from "@std/assert"
 import { splitLast } from "../../util/mod.ts"
 import type { AnyType } from "../Type.ts"
 import {
