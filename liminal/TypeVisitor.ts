@@ -55,8 +55,8 @@ export function TypeVisitor<S, R>(
         case T.option: {
           return arms.option
         }
-        case T.taggedUnion: {
-          return arms.taggedUnion
+        case T.union: {
+          return arms.union
         }
         case T.ref: {
           return arms.ref

@@ -1,19 +1,26 @@
-import type { DescriptionPart, ReduceD } from "./DescriptionPart.ts"
-import type { TypeDefContext } from "./TypeDef.ts"
+import type { Annotation, ReduceD } from "./annotations/mod.ts"
+import { deserialize } from "./json/deserialize.ts"
+import type { JSONSchema } from "./json/Schema.ts"
 
 export interface Type<T, D extends symbol> {
-  <P extends Array<DescriptionPart>>(
+  <A extends Array<Annotation>>(
     template: TemplateStringsArray,
-    ...parts: P
-  ): Type<T, ReduceD<D, P>>
-  <P extends Array<DescriptionPart>>(...parts: P): Type<T, ReduceD<D, P>>
+    ...parts: A
+  ): Type<T, ReduceD<D, A>>
+  <A extends Array<Annotation>>(...parts: A): Type<T, ReduceD<D, A>>
 
   T: T
   D: D
 
   declaration: TypeDeclaration
-  toJSON: () => TypeDefContext
-  description: Array<DescriptionPart>
+  annotations: Array<Annotation>
+  toJSON: () => JSONSchema
+}
+
+export namespace Type {
+  export function fromJSON(schema: JSONSchema) {
+    return deserialize(schema)
+  }
 }
 
 export type TypeDeclaration = {

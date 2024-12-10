@@ -1,15 +1,4 @@
-export interface Param<K extends symbol = symbol, A = any> {
-  (arg: A): Arg<K>
-  type: "Param"
-  key: K
-}
-
-export interface Arg<K extends symbol = symbol> {
-  type: "Arg"
-  key: K
-  value: unknown
-  serializer?: (value: any) => string
-}
+import type { Param } from "./Annotation.ts"
 
 export function _<K extends symbol, V = string>(
   key: K,

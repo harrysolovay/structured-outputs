@@ -1,4 +1,4 @@
-import { L } from "./mod.ts"
+import { L } from "../mod.ts"
 
 const NationalityKey = Symbol()
 const nationality = L._(NationalityKey)
@@ -17,3 +17,5 @@ const char = L.array(L.object({
     friendsAffected: L.option(L.array(L.string())),
   })),
 }))
+
+console.log(char)
